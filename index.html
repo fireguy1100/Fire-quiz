@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>The Fire Safety Quiz - Are You a Compliance King?</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #fff3e0; padding: 20px; }
+        #welcome { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        img { width: 200px; margin: 20px auto; }
+        input, button { font-size: 16px; padding: 10px; margin: 5px; }
+    </style>
+</head>
+<body>
+<div id="welcome">
+    <h1>Welcome to the Fire Safety Quiz!</h1>
+    <p>Think you know your fire doors from your fridge doors? Let’s find out.</p>
+    <p><strong>Step 1:</strong> Scan this QR code to register and get your access code:</p>
+    <img src="assets/quiz-registration-qr.png" alt="Scan Me">
+    <p><strong>Step 2:</strong> Enter your code below to start:</p>
+    <input type="text" id="regCode" placeholder="Enter your code (e.g., REG1234)">
+    <button onclick="startQuiz()">Start Quiz</button>
+    <p id="error" style="color:red; display:none;">Oi! That code’s not right. Check your form!</p>
+</div>
+<script>
+    const validCode = "REG1234";
+
+    function startQuiz() {
+        const code = document.getElementById('regCode').value.trim().toUpperCase();
+        if (code === validCode) {
+            window.location.href = "quiz.html";
+        } else {
+            document.getElementById('error').style.display = 'block';
+        }
+    }
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+</script>
+</body>
+</html>

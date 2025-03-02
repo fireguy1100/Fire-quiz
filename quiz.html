@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fire Safety Showdown</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #fff3e0; }
+        #quiz-box { background: white; padding: 20px; border-radius: 10px; margin-top: 50px; display: inline-block; }
+        button { margin: 5px; padding: 10px 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<h1>🔥 Fire Safety Showdown 🔥</h1>
+<div id="quiz-box">
+    <p id="question">Press Start to begin!</p>
+    <div id="answers"></div>
+    <button onclick="startGame()">Start</button>
+</div>
+
+<h2>Top 5 Compliance Kings</h2>
+<ul id="high-scores"></ul>
+
+<script>
+    const questions = [
+        { q: "Which extinguisher do you NOT want to chuck on an electrical fire?", a: ["Water", "CO2", "Powder", "Foam"], correct: 0 },
+        { q: "How often should you give your fire doors a check-up?", a: ["Annually", "Monthly", "Every 6 months", "Every 3 years"], correct: 2 },
+        { q: "What’s COSHH all about?", a: ["Fire drills", "Hazardous substances", "Manual handling", "Health & Safety gossip"], correct: 1 },
+        { q: "What colour are mandatory safety signs?", a: ["Red", "Green", "Blue", "Yellow"], correct: 2 },
+        { q: "When should you review a Fire Risk Assessment?", a: ["Every year", "Every 3 years", "Whenever the boss remembers", "After major changes"], correct: 3 },
+    ];
+    let streak = 0;
+    let highScores = [];
+
+    function startGame() {
+        streak = 0;
+        nextQuestion();
+    }
+
+    function nextQuestion() {
+        const question = questions[Math.floor(Math.random() * questions.length)];
+        document.getElementById('question').innerText = question.q;
+        const answers = document.getElementById('answers');
+        answers.innerHTML = '';
+        question.a.forEach((ans, i) => {
+            const btn = document.createElement('button');
+            btn.innerText = ans;
+            btn.onclick = () => checkAnswer(i === question.correct);
+            answers.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(correct) {
+        if (correct) {
+            streak++;
+            nextQuestion();
+        } else {
+            endGame();
+        }
+    }
+
+    function endGame() {
+        const name = prompt(`Not bad! Your streak: ${streak}. Enter your name:`);
+        highScores.push({ name, streak });
+        highScores.sort((a, b) => b.streak - a.streak);
+        if (highScores.length > 5) highScores.pop();
+        updateHighScores();
+    }
+
+    function updateHighScores() {
+        const list = document.getElementById('high-scores');
+        list.innerHTML = '';
+        highScores.forEach((entry, i) => {
+            list.innerHTML += `<li>${i+1}. ${entry.name} - ${entry.streak}</li>`;
+        });
+    }
+</script>
+
+</body>
+</html>
